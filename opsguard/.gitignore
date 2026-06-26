@@ -1,0 +1,129 @@
+# =========================
+
+# Python
+
+# =========================
+
+**pycache**/
+*.py[cod]
+*$py.class
+
+# =========================
+
+# Virtual Environments
+
+# =========================
+
+venv/
+.venv/
+env/
+ENV/
+opsguard-env/
+
+# =========================
+
+# Build / Packaging
+
+# =========================
+
+build/
+dist/
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
+
+# =========================
+
+# Testing
+
+# =========================
+
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.mypy_cache/
+.ruff_cache/
+
+# =========================
+
+# IDEs
+
+# =========================
+
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# =========================
+
+# OS Files
+
+# =========================
+
+.DS_Store
+Thumbs.db
+
+# =========================
+
+# OpsGuard Runtime Data
+
+# =========================
+
+.opsguard/
+
+# =========================
+
+# Logs
+
+# =========================
+
+logs/
+*.log
+
+# =========================
+
+# Environment Variables
+
+# =========================
+
+.env
+.env.*
+!.env.example
+
+# =========================
+
+# Local Databases
+
+# =========================
+
+*.db
+*.sqlite
+*.sqlite3
+
+# =========================
+
+# Temporary Files
+
+# =========================
+
+tmp/
+temp/
+*.tmp
+
+# =========================
+
+# Python Version Managers
+
+# =========================
+
+.python-version
+
+# =========================
+
+# Jupyter
+
+# =========================
+
+.ipynb_checkpoints/
