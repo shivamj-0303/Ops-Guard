@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "opsguard"
+version = "0.1.0"
+description = "Runtime incident detection and auto-remediation system"
+requires-python = ">=3.10"
+dependencies = [
+    "fastapi",
+    "uvicorn",
+    "docker",
+    "gitpython"
+]
+
+[project.scripts]
+opsguard = "opsguard.cli.main:main"

@@ -221,7 +221,7 @@ def handle_event(event):
     recent_commits = get_recent_commits(limit=3)
 
     repo_path = get_project_path()
-
+    print(repo_path)
     investigation_context = collect_context(
         report,
         trace_info,

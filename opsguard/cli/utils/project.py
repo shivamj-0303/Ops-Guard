@@ -1,33 +1,35 @@
 from pathlib import Path
 import json
 
-CONFIG_FILE = "config.json"
-
 
 def get_opsguard_dir():
     current = Path.cwd()
 
     opsguard_dir = current / ".opsguard"
 
-    if not opsguard_dir.exists():
-        raise Exception(
-            "OpsGuard not initialized. Run 'opsguard init'"
-        )
+    if opsguard_dir.exists():
+        return opsguard_dir
 
-    return opsguard_dir
-
-
-def load_project_config():
-    config_file = (
-        get_opsguard_dir()
-        / CONFIG_FILE
+    raise Exception(
+        "OpsGuard not initialized. Run 'opsguard init'"
     )
 
-    with open(config_file) as f:
-        return json.load(f)
+
+def get_project_config():
+    opsguard_dir = get_opsguard_dir()
+
+    config_file = opsguard_dir / "config.json"
+
+    if not config_file.exists():
+        raise Exception(
+            "config.json not found."
+        )
+
+    with open(config_file) as file:
+        return json.load(file)
 
 
 def get_project_path():
-    config = load_project_config()
+    config = get_project_config()
 
     return config["project_path"]

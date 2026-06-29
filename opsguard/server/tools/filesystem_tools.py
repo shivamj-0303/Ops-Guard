@@ -8,19 +8,28 @@ from opsguard.server.tools.registry import (
 
 
 def read_file(payload):
-    path = Path(payload["path"])
 
-    if not path.exists():
-        raise Exception(f"{path} not found")
+    if "file_path" in payload:
+        path = Path(payload["file_path"])
+
+    else:
+        root = Path(payload["repo_path"])
+        filename = payload["filename"]
+
+        matches = list(root.rglob(filename))
+
+        if not matches:
+            raise Exception(f"{filename} not found")
+
+        path = matches[0]
 
     return {
-        "path": str(path),
+        "file_path": str(path),
         "content": path.read_text()
     }
 
-
 def file_exists(payload):
-    path = Path(payload["path"])
+    path = Path(payload["repo_path"])
 
     return {
         "path": str(path),
@@ -32,13 +41,13 @@ def find_file(payload):
     root = Path(payload["repo_path"])
     filename = payload["filename"]
 
-    matches = []
+    matches = list(root.rglob(filename))
 
-    for file in root.rglob(filename):
-        matches.append(str(file))
+    if not matches:
+        raise Exception(f"{filename} not found")
 
     return {
-        "matches": matches
+        "file_path": str(matches[0])
     }
 
 
@@ -71,7 +80,7 @@ def search_text(payload):
 
 
 def create_backup(payload):
-    path = Path(payload["path"])
+    path = Path(payload["repo_path"])
 
     if not path.exists():
         raise Exception(f"{path} not found")
@@ -92,40 +101,34 @@ def create_backup(payload):
 
 
 def replace_text(payload):
-    path = Path(payload["path"])
 
-    if not path.exists():
-        raise Exception(f"{path} not found")
+    if "file_path" in payload:
+        path = Path(payload["file_path"])
 
-    old = payload["old"]
-    new = payload["new"]
+    else:
+        root = Path(payload["repo_path"])
+        filename = payload["filename"]
+
+        matches = list(root.rglob(filename))
+
+        if not matches:
+            raise Exception(f"{filename} not found")
+
+        path = matches[0]
 
     content = path.read_text()
 
-    if old not in content:
-
-        return {
-            "status": "not_found",
-            "path": str(path)
-        }
-
-    create_backup({
-        "path": str(path)
-    })
-
-    updated = content.replace(
-        old,
-        new,
-        1
+    content = content.replace(
+        payload["old_text"],
+        payload["new_text"]
     )
 
-    path.write_text(updated)
+    path.write_text(content)
 
     return {
         "status": "success",
-        "path": str(path)
+        "file_path": str(path)
     }
-
 
 register_tool(
     Tool(

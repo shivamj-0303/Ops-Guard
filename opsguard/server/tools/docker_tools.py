@@ -43,9 +43,21 @@ def collect_logs(payload):
 
 
 def inspect_container(payload):
-    container_id = payload.get("container_id")
 
-    container = client.containers.get(container_id)
+    if "container_id" in payload:
+        container = client.containers.get(
+            payload["container_id"]
+        )
+
+    elif "container_name" in payload:
+        container = client.containers.get(
+            payload["container_name"]
+        )
+
+    else:
+        raise Exception(
+            "container_id or container_name required"
+        )
 
     return container.attrs
 
