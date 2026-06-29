@@ -17,8 +17,10 @@ def investigate_incident(
     provider,
     report,
     analysis,
-    trace,
-    commits
+    investigation_context,
+    commits,
+    evidence,
+    commit_analysis
 ):
     with open(PROMPT_PATH) as f:
         system_prompt = f.read()
@@ -26,8 +28,10 @@ def investigate_incident(
     context = build_investigation_context(
         report,
         analysis,
-        trace,
-        commits
+        investigation_context,
+        commits,
+        evidence,
+        commit_analysis
     )
 
     full_prompt = (
@@ -35,9 +39,5 @@ def investigate_incident(
         + "\n\n"
         + context
     )
-    print("\n===== PROMPT =====\n")
-    print(full_prompt)
-
-
     response = provider.investigate(full_prompt)
     return json.loads(response)

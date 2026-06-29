@@ -1,5 +1,11 @@
 from datetime import datetime
 from threading import Lock
+from opsguard.server.remediation.planner import (
+    build_remediation_plan
+)
+from opsguard.server.remediation.approvals import (
+    save_approval_request
+)
 
 active_incidents = {}
 incident_history = []

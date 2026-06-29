@@ -4,8 +4,7 @@ import time
 
 client = docker.from_env()
 
-# simple in-memory dedup store
-recent_events = {}  # container_id -> timestamp
+recent_events = {}
 
 
 DEDUP_WINDOW_SECONDS = 5

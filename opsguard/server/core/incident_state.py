@@ -1,0 +1,13 @@
+from enum import Enum
+
+
+class IncidentStatus(str, Enum):
+    OPEN = "OPEN"
+    INVESTIGATING = "INVESTIGATING"
+    PENDING_APPROVAL = "PENDING_APPROVAL"
+    APPROVED = "APPROVED"
+    QUEUED = "QUEUED"
+    EXECUTING = "EXECUTING"
+    VERIFIED = "VERIFIED"
+    FAILED = "FAILED"
+    CLOSED = "CLOSED"

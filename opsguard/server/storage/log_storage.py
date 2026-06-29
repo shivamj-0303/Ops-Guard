@@ -1,12 +1,14 @@
 from pathlib import Path
-
+from opsguard.cli.utils.project import (
+    get_opsguard_dir
+)
 
 def save_logs(
     incident_id,
     logs
 ):
     logs_dir = (
-        Path(".opsguard")
+        get_opsguard_dir()
         / "incidents"
         / "logs"
     )

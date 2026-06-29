@@ -3,25 +3,44 @@ import json
 from opsguard.cli.utils.project import get_opsguard_dir
 
 
-CONTAINERS_FILE = "containers.json"
+CONFIG_FILE = "config.json"
 
 
 def get_registered_containers():
     opsguard_dir = get_opsguard_dir()
 
-    container_file = (
-        opsguard_dir / CONTAINERS_FILE
+    config_file = (
+        opsguard_dir / CONFIG_FILE
     )
 
-    if not container_file.exists():
+    if not config_file.exists():
         return []
 
-    with open(container_file) as file:
-        return json.load(file)
+    with open(config_file) as file:
+        config = json.load(file)
+
+    return config.get("containers", [])
 
 
 def register_container(container_name):
-    containers = get_registered_containers()
+    opsguard_dir = get_opsguard_dir()
+
+    config_file = (
+        opsguard_dir / CONFIG_FILE
+    )
+
+    if not config_file.exists():
+        raise Exception(
+            "OpsGuard project is not initialized."
+        )
+
+    with open(config_file) as file:
+        config = json.load(file)
+
+    containers = config.get(
+        "containers",
+        []
+    )
 
     already_registered = any(
         container["container_name"] == container_name
@@ -32,32 +51,31 @@ def register_container(container_name):
         return False
 
     containers.append({
-        "container_name": container_name
+        "container_name": container_name,
+        "runtime": "docker"
     })
 
-    opsguard_dir = get_opsguard_dir()
+    config["containers"] = containers
 
     with open(
-        opsguard_dir / CONTAINERS_FILE,
+        config_file,
         "w"
     ) as file:
         json.dump(
-            containers,
+            config,
             file,
             indent=4
         )
 
     return True
 
-def is_registered_container(
-    container_name
-):
+
+def is_registered_container(container_name):
     containers = (
         get_registered_containers()
     )
 
     return any(
-        container["container_name"]
-        == container_name
+        container["container_name"] == container_name
         for container in containers
     )

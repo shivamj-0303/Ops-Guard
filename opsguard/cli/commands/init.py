@@ -1,7 +1,9 @@
 from pathlib import Path
 import json
-from git import Repo
 import uuid
+
+from git import Repo
+
 
 def init_project():
     current_path = Path.cwd()
@@ -9,39 +11,31 @@ def init_project():
     try:
         repo = Repo(current_path)
     except Exception:
-        print(
-            "Not inside a git repository."
-        )
+        print("Not inside a git repository.")
         return
 
-    opsguard_dir = (
-        current_path / ".opsguard"
-    )
+    opsguard_dir = current_path / ".opsguard"
 
-    opsguard_dir.mkdir(
-        exist_ok=True
-    )
+    opsguard_dir.mkdir(exist_ok=True)
 
-    config_file = (
-        opsguard_dir / "config.json"
-    )
+    config_file = opsguard_dir / "config.json"
 
     remote_url = None
 
     if repo.remotes:
-        remote_url = (
-            repo.remotes.origin.url
-        )
+        remote_url = repo.remotes.origin.url
 
     config = {
-        "project_id": 
-            str(uuid.uuid4()),
-        "project_name":
-            current_path.name,
-        "project_path":
-            str(current_path),
-        "git_remote":
-            remote_url
+        "project_id": str(uuid.uuid4()),
+        "project_name": current_path.name,
+        "project_path": str(current_path),
+        "git_remote": remote_url,
+        "containers": [],
+        "settings": {
+            "ai_provider": "ollama",
+            "approval_required": True,
+            "auto_execute": False
+        }
     }
 
     with open(
@@ -54,6 +48,4 @@ def init_project():
             indent=4
         )
 
-    print(
-        "OpsGuard initialized successfully."
-    )
+    print("OpsGuard initialized successfully.")

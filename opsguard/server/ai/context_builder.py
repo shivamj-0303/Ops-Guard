@@ -4,8 +4,10 @@ import json
 def build_investigation_context(
     report,
     analysis,
-    trace,
-    commits
+    context,
+    commits,
+    evidence,
+    commit_analysis
 ):
     logs = report.get("logs_tail", "") or ""
 
@@ -20,9 +22,15 @@ def build_investigation_context(
             "reason": report.get("reason")
         },
         "analysis": analysis,
-        "trace": trace,
+        "trace": context.trace,
         "recent_commits": commits,
-        "logs": truncated_logs
+        "docker": context.docker,
+        "git": context.git,
+        "source": context.source,
+        "dependencies": context.dependencies,
+        "logs": truncated_logs,
+        "evidence": evidence,
+        "commit_analysis": commit_analysis
     }
 
     return json.dumps(context, indent=2)
