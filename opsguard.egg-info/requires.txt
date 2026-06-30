@@ -1,5 +1,0 @@
-GitPython
-docker
-fastapi
-uvicorn
-pydantic

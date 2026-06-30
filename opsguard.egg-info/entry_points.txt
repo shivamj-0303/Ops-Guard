@@ -1,2 +1,0 @@
-[console_scripts]
-opsguard = opsguard.cli.main:main

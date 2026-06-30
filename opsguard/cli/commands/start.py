@@ -2,7 +2,7 @@ import os
 import uvicorn
 
 
-def start_opsguard():
+def start():
     os.environ["OPSGUARD_OBSERVER"] = "1"
 
     uvicorn.run(

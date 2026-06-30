@@ -1,18 +1,55 @@
 [build-system]
-requires = ["setuptools", "wheel"]
+requires = ["setuptools>=69", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "opsguard"
 version = "0.1.0"
-description = "Runtime incident detection and auto-remediation system"
+description = "AI-powered runtime incident detection and auto-remediation for Docker workloads."
+readme = "README.md"
 requires-python = ">=3.10"
-dependencies = [
-    "fastapi",
-    "uvicorn",
-    "docker",
-    "gitpython"
+license = { text = "MIT" }
+
+authors = [
+    { name = "Shivam Jangid" }
 ]
+
+keywords = [
+    "docker",
+    "devops",
+    "observability",
+    "incident-response",
+    "ai",
+    "monitoring"
+]
+
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent"
+]
+
+dependencies = [
+    "docker",
+    "fastapi",
+    "gitpython",
+    "pydantic",
+    "uvicorn"
+]
+
+[project.urls]
+Homepage = "https://github.com/shivamj-0303/opsguard"
+Repository = "https://github.com/shivamj-0303/opsguard"
+Issues = "https://github.com/shivamj-0303/opsguard/issues"
 
 [project.scripts]
 opsguard = "opsguard.cli.main:main"
+
+[tool.setuptools.packages.find]
+include = ["opsguard*"]
+
+[tool.setuptools.package-data]
+opsguard = [
+    "server/ai/prompts/*.txt"
+]
